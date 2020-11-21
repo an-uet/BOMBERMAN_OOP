@@ -26,8 +26,7 @@ public abstract class SemiDynamic extends Entity {
             animate = 0; //reset animation
         }
     }
-
-
+    
     @Override
     public void update() {
         if (timeToExplode > 0) {
