@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Flame extends SemiDynamic {
     protected int direction; //huong ngon lua : trên/dưới/trái/phải tương ứng là 0/1/2/3
+    boolean canRender = true;
 
     public Flame(double x, double y, int direction, Game game) {
         super(x, y, game);
@@ -30,6 +31,7 @@ public class Flame extends SemiDynamic {
                     if (((LayeredEntity) entity).getTopEntity() instanceof Brick) {
                         ((LayeredEntity) entity).getTopEntity().kill();
                         Sound.play("BOM_11_M");
+                        canRender = false;
                     }
                 }
                 if (entity instanceof Enemy) {
@@ -112,7 +114,9 @@ public class Flame extends SemiDynamic {
                             break;
                     }
                 }
-                gc.drawImage(img, x, y);
+                if (canRender) {
+                    gc.drawImage(img, x, y);
+                }
             } else {
                 remove();
             }

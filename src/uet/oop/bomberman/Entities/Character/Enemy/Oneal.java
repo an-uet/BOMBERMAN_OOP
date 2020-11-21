@@ -11,11 +11,11 @@ import java.util.Random;
 
 public class Oneal extends Enemy {
     protected Random random = new Random();
-    public Oneal(int x, int y, Game game) {
+    public Oneal(double x, double y, Game game) {
         super(x, y, game);
         img = Sprite.oneal_left1.getFxImage();
         ai = new AIMedium(game.bomberman, this);
-        speed = Sprite.SCALED_SIZE/30;
+        speed = Sprite.SCALED_SIZE/20;
         speed += random.nextInt(2);
         score = 200;
     }
@@ -38,7 +38,6 @@ public class Oneal extends Enemy {
     @Override
     public void render(GraphicsContext gc) {
         chooseSprite();
-        move();
         if (isKilled()) {
             if (timeToDie > -30) {
                 if (animate % 60 < 20) {

@@ -15,10 +15,10 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.List;
 
 public abstract class Character extends Entity {
+
     protected double speed;
     protected Game game = new Game();
-    protected boolean canMove = false;
-
+    protected boolean canMove;
     protected int direction; //hướng đi của thực thể
 
     public Character(double x, double y, Game game) {
@@ -34,6 +34,62 @@ public abstract class Character extends Entity {
         } else {
             animate = 0;
         }
+    }
+
+    public boolean canMove(int direction) {
+        canMove = true;
+        if (direction == 0) {
+            List<Entity> entityList = game.getEntityAt(x, y - speed);
+            for (Entity a : entityList) {
+                if ((a instanceof Wall || a instanceof Bomb) && y > a.getY()) {
+                    canMove = false;
+                } else if (a instanceof LayeredEntity && y > a.getY()) {
+                    if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
+                        canMove = false;
+                    }
+                }
+            }
+        }
+        if (direction == 1) {
+            List<Entity> entityList = game.getEntityAt(x + speed, y);
+            for (Entity a : entityList) {
+                if ((a instanceof Wall || a instanceof Bomb) && x < a.getX()) {
+                    canMove = false;
+                } else if (a instanceof LayeredEntity && x < a.getX()) {
+                    if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
+                        canMove = false;
+                    }
+                }
+            }
+        }
+        if (direction == 2) {
+            List<Entity> entityList = game.getEntityAt(x, y + speed);
+            for (Entity a : entityList) {
+                if ((a instanceof Wall || a instanceof Bomb) && y < a.getY()) {
+                    canMove = false;
+                } else if (a instanceof LayeredEntity && y < a.getY()) {
+                    if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
+                        canMove = false;
+                    }
+                }
+            }
+        }
+        if (direction == 3) {
+            List<Entity> entityList = game.getEntityAt(x - speed, y);
+            for (Entity a : entityList) {
+                if ((a instanceof Wall || a instanceof Bomb) && x > a.getX()) {
+                    canMove = false;
+                } else if (a instanceof LayeredEntity && x > a.getX()) {
+                    if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
+                        canMove = false;
+                    }
+                }
+            }
+        }
+        if (isKilled()) {
+            canMove = false;
+        }
+        return canMove;
     }
 
     public void update() {

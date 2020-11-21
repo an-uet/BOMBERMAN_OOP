@@ -4,8 +4,8 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class unitFlame extends SemiDynamic{
-    public unitFlame(double xUnit, double yUnit, Game game) {
+public class UnitFlame extends SemiDynamic{
+    public UnitFlame(double xUnit, double yUnit, Game game) {
         super(xUnit, yUnit, game);
     }
     public void collide() {

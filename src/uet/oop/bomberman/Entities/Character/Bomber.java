@@ -48,93 +48,49 @@ public class Bomber extends Character {
     }
 
     public void moveLeft() {
-        canMove = true;
         img = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, left).getFxImage();
         if (left == 8) {
             left = 0;
         } else {
             left++;
         }
-        List<Entity> entityList = game.getEntityAt(x - speed, y);
-        for (Entity a : entityList) {
-            if ((a instanceof Wall || a instanceof Bomb) && x > a.getX()) {
-                canMove = false;
-            } else if (a instanceof LayeredEntity && x > a.getX()) {
-                if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
-                    canMove = false;
-                }
-            }
-        }
-        if (canMove) {
+        if (canMove(3)) {
             x -= speed;
         }
     }
 
     public void moveRight() {
-       canMove = true;
         img = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, right).getFxImage();
         if (right == 8) {
             right = 0;
         } else {
             right++;
         }
-        List<Entity> entityList = game.getEntityAt(x + speed, y);
-        for (Entity a : entityList) {
-            if ((a instanceof Wall || a instanceof Bomb) && x < a.getX()) {
-                canMove = false;
-            } else if (a instanceof LayeredEntity && x < a.getX()) {
-                if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
-                    canMove = false;
-                }
-            }
-        }
-        if (canMove) {
+        if (canMove(1)) {
             x += speed;
         }
     }
 
     public void moveUp() {
-      canMove = true;
         img = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, up).getFxImage();
         if (up == 8) {
             up = 0;
         } else {
             up++;
         }
-        List<Entity> entityList = game.getEntityAt(x, y - speed);
-        for (Entity a : entityList) {
-            if ((a instanceof Wall || a instanceof Bomb) && y > a.getY()) {
-                canMove = false;
-            } else if (a instanceof LayeredEntity && y > a.getY()) {
-                if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
-                    canMove = false;
-                }
-            }
-        }
-        if (canMove) {
+        if (canMove(0)) {
             y -= speed;
         }
     }
 
     public void moveDown() {
-       canMove = true;
         img = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, down).getFxImage();
         if (down == 8) {
             down = 0;
         } else {
             down++;
         }
-        List<Entity> entityList = game.getEntityAt(x, y + speed);
-        for (Entity a : entityList) {
-            if ((a instanceof Wall || a instanceof Bomb) && y < a.getY()) {
-                canMove = false;
-            } else if (a instanceof LayeredEntity && y < a.getY()) {
-                if (((LayeredEntity) a).getTopEntity() instanceof Brick) {
-                    canMove = false;
-                }
-            }
-        }
-        if (canMove) {
+        if (canMove(2)) {
             y += speed;
         }
     }

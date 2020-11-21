@@ -9,13 +9,12 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloom extends Enemy {
-    public Balloom(int x, int y, Game game) {
+    public Balloom(double x, double y, Game game) {
         super(x, y, game);
         img = Sprite.balloom_left1.getFxImage();
         ai = new AILow();
-        speed = Sprite.SCALED_SIZE/20;
+        speed = Sprite.SCALED_SIZE/32;
         score = 100;
-
     }
 
     protected void chooseSprite() {
@@ -35,7 +34,6 @@ public class Balloom extends Enemy {
     @Override
     public void render(GraphicsContext gc) {
         chooseSprite();
-        move();
         if (isKilled()) {
             if (timeToDie > -60) {
                 img = Sprite.movingSprite(Sprite.mob_dead1,Sprite.mob_dead2,Sprite.mob_dead3,animate,60).getFxImage();
