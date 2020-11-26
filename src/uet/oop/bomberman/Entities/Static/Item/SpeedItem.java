@@ -14,19 +14,8 @@ public class SpeedItem extends Item {
     }
 
     @Override
-    public void collide() {
-
-
-    }
-
-
-    @Override
     public void update() {
-
-    }
-
-    @Override
-    public void render(GraphicsContext gc) {
         collide();
     }
+
 }

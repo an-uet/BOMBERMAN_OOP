@@ -54,7 +54,7 @@ public class LayeredEntity extends Entity {
     @Override
     public void render(GraphicsContext gc) {
         for (int i = 0; i < entities.size(); i++) {
-            gc.drawImage(entities.get(i).getImg(), x, y);
+            entities.get(i).render(gc);
         }
     }
 

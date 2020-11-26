@@ -36,6 +36,10 @@ public abstract class Character extends Entity {
         }
     }
 
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
     public boolean canMove(int direction) {
         canMove = true;
         if (direction == 0) {

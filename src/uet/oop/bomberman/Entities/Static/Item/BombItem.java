@@ -11,9 +11,6 @@ public class BombItem extends Item {
         img = Sprite.powerup_bombs.getFxImage();
     }
 
-    public void collide() {
-
-    }
     @Override
     public void update() {
 

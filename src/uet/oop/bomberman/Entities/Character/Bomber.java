@@ -12,6 +12,8 @@ import uet.oop.bomberman.Entities.Level.Level;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
 import uet.oop.bomberman.Entities.SemiDynamic.Brick;
 import uet.oop.bomberman.Entities.Static.Grass;
+import uet.oop.bomberman.Entities.Static.Item.BombItem;
+import uet.oop.bomberman.Entities.Static.Item.SpeedItem;
 import uet.oop.bomberman.Entities.Static.Wall;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
@@ -28,6 +30,7 @@ public class Bomber extends Character {
     private int down = 0;
     private int right = 0;
     private int left = 0;
+    private int amountBomb = 1;
 
 
 
@@ -41,8 +44,23 @@ public class Bomber extends Character {
     public void collide() {
         List<Entity> entityList = game.getEntityAt(x , y);
         for (Entity a : entityList) {
-            if (a instanceof Enemy) {
-                kill();
+            if (a instanceof LayeredEntity) {
+                if (((LayeredEntity) a).getTopEntity() instanceof SpeedItem) {
+                    if (direction == 0) {
+                        y += speed;
+                    } else if (direction == 1) {
+                        x -= speed;
+                    } else if (direction == 2) {
+                        y -= speed;
+                    } else {
+                        x += speed;
+                    }
+                    speed = Sprite.SCALED_SIZE / 4;
+                    a.remove();
+                } else if (((LayeredEntity) a).getTopEntity() instanceof BombItem) {
+                    amountBomb++ ;
+                    a.remove();
+                }
             }
         }
     }
@@ -97,25 +115,30 @@ public class Bomber extends Character {
 
     public void anime(KeyEvent event) {
         if (event.getCode().equals(KeyCode.RIGHT)) {
+            direction = 1;
             moveRight();
         } else if (event.getCode().equals(KeyCode.DOWN)) {
+            direction = 2;
             moveDown();
         }
         if (event.getCode().equals(KeyCode.UP)) {
+            direction = 0;
             moveUp();
         }
         if (event.getCode().equals(KeyCode.LEFT)) {
+            direction = 3;
             moveLeft();
         }
         if (event.getCode().equals(KeyCode.SPACE)) {
-            Sound.play("BOM_SET");
-            Bomb bom = new Bomb(Math.round(x / Sprite.SCALED_SIZE), Math.round(y / Sprite.SCALED_SIZE), game);
-            Game.flames.add(bom.flameDown);
-            Game.flames.add(bom.flameLeft);
-            Game.flames.add(bom.flameUp);
-            Game.flames.add(bom.flameRight);
-            Game.bombs.add(bom);
-
+            if (Game.bombs.size() < amountBomb) {
+                Sound.play("BOM_SET");
+                Bomb bom = new Bomb(Math.round(x / Sprite.SCALED_SIZE), Math.round(y / Sprite.SCALED_SIZE), game);
+                Game.flames.add(bom.flameDown);
+                Game.flames.add(bom.flameLeft);
+                Game.flames.add(bom.flameUp);
+                Game.flames.add(bom.flameRight);
+                Game.bombs.add(bom);
+            }
         }
     }
 
