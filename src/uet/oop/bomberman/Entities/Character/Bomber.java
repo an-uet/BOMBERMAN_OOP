@@ -1,31 +1,21 @@
 package uet.oop.bomberman.Entities.Character;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
-import uet.oop.bomberman.Entities.Level.Level;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
-import uet.oop.bomberman.Entities.SemiDynamic.Brick;
 import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
-import uet.oop.bomberman.Entities.Static.Grass;
 import uet.oop.bomberman.Entities.Static.Item.BombItem;
 import uet.oop.bomberman.Entities.Static.Item.FlameItem;
 import uet.oop.bomberman.Entities.Static.Item.SpeedItem;
-import uet.oop.bomberman.Entities.Static.Wall;
+import uet.oop.bomberman.Entities.Static.Portal;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static uet.oop.bomberman.BombermanGame.HEIGHT;
-import static uet.oop.bomberman.BombermanGame.WIDTH;
 
 public class Bomber extends Character {
     private int up = 0;
@@ -33,7 +23,6 @@ public class Bomber extends Character {
     private int right = 0;
     private int left = 0;
     private int amountBomb = 1;
-
 
 
     public Bomber(double x, double y, Game game) {
@@ -44,7 +33,7 @@ public class Bomber extends Character {
     }
 
     public void collide() {
-        List<Entity> entityList = game.getEntityAt(x , y);
+        List<Entity> entityList = game.getEntityAt(x, y);
         for (Entity a : entityList) {
             if (a instanceof LayeredEntity) {
                 if (((LayeredEntity) a).getTopEntity() instanceof SpeedItem) {
@@ -59,13 +48,25 @@ public class Bomber extends Character {
                     }
                     speed *= 2;
                     a.remove();
+                    Sound.play("CRYST_UP");
                 } else if (((LayeredEntity) a).getTopEntity() instanceof BombItem) {
-                    amountBomb++ ;
+                    amountBomb++;
                     a.remove();
+                    Sound.play("CRYST_UP");
                 } else if (((LayeredEntity) a).getTopEntity() instanceof FlameItem) {
                     RayFlame.lengthFlame += 1;
                     a.remove();
+                    Sound.play("CRYST_UP");
+                } else if (((LayeredEntity) a).getTopEntity() instanceof Portal) {
+                    if (Game.enemies.isEmpty()) {
+                        a.remove();
+                        Sound.play("CRYST_UP");
+                        Game.changeLevel = true;
+                    }
+
                 }
+
+
             }
         }
     }
@@ -152,6 +153,9 @@ public class Bomber extends Character {
     @Override
     public void render(GraphicsContext gc) {
         if (isKilled()) {
+            if (timeToDie > 20) {
+                Sound.play("endgame3");
+            }
             if (timeToDie > -30) {
                 if (animate % 60 < 20) {
                     img = Sprite.player_dead1.getFxImage();

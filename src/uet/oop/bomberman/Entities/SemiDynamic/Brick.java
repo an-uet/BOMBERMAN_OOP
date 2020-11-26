@@ -28,7 +28,6 @@ public class Brick extends SemiDynamic {
             }
         } else {
             remove();
-            Game.wallAndBrick.remove(this);
         }
         animate();
     }

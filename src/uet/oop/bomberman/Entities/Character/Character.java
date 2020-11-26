@@ -19,7 +19,7 @@ public abstract class Character extends Entity {
     protected double speed;
     protected Game game = new Game();
     protected boolean canMove;
-    protected int direction; //hướng đi của thực thể
+    protected int direction = -1 ; //hướng đi của thực thể
 
     public Character(double x, double y, Game game) {
         super(x, y, game);

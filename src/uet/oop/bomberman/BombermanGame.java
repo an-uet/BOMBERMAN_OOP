@@ -1,25 +1,22 @@
 package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import uet.oop.bomberman.Entities.Character.Bomber;
-import uet.oop.bomberman.Entities.Entity;
-import uet.oop.bomberman.Entities.LayeredEntity;
+import javafx.util.Duration;
 import uet.oop.bomberman.Entities.Level.Level;
-import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
-import uet.oop.bomberman.Entities.SemiDynamic.Brick;
+import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BombermanGame extends Application {
 
@@ -30,6 +27,8 @@ public class BombermanGame extends Application {
     public static Canvas canvas;
     private Game game = new Game();
     private Level level = new Level(game);
+    public int numOfLevel = 1;
+    Screen screen = new Screen();
 
 
     public static void main(String[] args) {
@@ -40,15 +39,38 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        Pane paneCanvas = new Pane();
+        paneCanvas.setStyle("-fx-background-color: black");
+        canvas = new Canvas();
+        canvas.setHeight(Sprite.SCALED_SIZE * HEIGHT);
+        canvas.setWidth(Sprite.SCALED_SIZE * WIDTH);
         gc = canvas.getGraphicsContext2D();
 
-        // Tao root container
-        Group root = new Group();
-        root.getChildren().add(canvas);
+        // set layout for canvas.
+        canvas.setLayoutX(1000 / 2 - Sprite.SCALED_SIZE * WIDTH / 2);
+        canvas.setLayoutY(50);
+
+        // Tao container
+        paneCanvas.getChildren().add(canvas);
+
+        //score.
+        Label score = new Label(String.format("Score: %d", game.totalScore));
+        score.setTextFill(Color.WHITE);
+        score.setLayoutX(50);
+        score.setLayoutY(10);
+        paneCanvas.getChildren().add(score);
+
+        //time.
+        Label time = new Label(String.format("Time: %d", game.TIME));
+        time.setTextFill(Color.WHITE);
+        time.setLayoutX(400);
+        time.setLayoutY(10);
+        paneCanvas.getChildren().add(time);
+
 
         // Tao scene
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(paneCanvas, 1000, 470);
+
 
         // Them scene vao stage
         stage.setScene(scene);
@@ -59,6 +81,14 @@ public class BombermanGame extends Application {
             public void handle(long l) {
                 game.render();
                 game.update();
+                GameOver(stage);
+                if(Game.changeLevel == true)
+                {
+                    numOfLevel ++;
+                    game.reset();
+                    level.createMap(numOfLevel);
+                    game.changeLevel = false;
+                }
             }
         };
         timer.start();
@@ -73,5 +103,34 @@ public class BombermanGame extends Application {
         });
         // nhac cho man choi.
         Sound.play("soundtrack");
+
     }
+
+
+    // hiện màn hình game over khi bomber chết.
+    public void GameOver(Stage stage) {
+        if (game.bomberman.isKilled()) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(3));
+            delay.setOnFinished(event ->
+            {
+                stage.setScene(screen.gameOver());
+            });
+            delay.play();
+        }
+        else
+        {
+            // ket thuc man choi sau 200s.
+            PauseTransition delay = new PauseTransition(Duration.seconds(200));
+            delay.setOnFinished(event ->
+            {
+                stage.setScene(screen.gameOver());
+            });
+            delay.play();
+        }
+    }
+
+
+
+
+
 }

@@ -2,9 +2,7 @@ package uet.oop.bomberman.Entities.Level;
 
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Entities.Character.Bomber;
-import uet.oop.bomberman.Entities.Character.Enemy.Balloom;
-import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
-import uet.oop.bomberman.Entities.Character.Enemy.Oneal;
+import uet.oop.bomberman.Entities.Character.Enemy.*;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
@@ -38,7 +36,6 @@ public class Level {
                 if (Game.mapChar[i][j] == '#') {
                     Wall wall = new Wall(j, i, game);
                     Game.stillObjects.add(wall);
-                    Game.wallAndBrick.add(wall);
                 }
                 loadLevelEntities(Game.mapChar[i][j], j, i);
             }
@@ -72,7 +69,6 @@ public class Level {
                 Brick brick = new Brick(x, y, game);
                 LayeredEntity layeredEntity = new LayeredEntity(x, y, brick, game);
                 Game.layeredEntities.add(layeredEntity);
-                Game.wallAndBrick.add(brick);
                 break;
 
             case 'x':
@@ -96,12 +92,21 @@ public class Level {
                 Game.enemies.add(oneal);
                 break;
 
+            case '3':
+                Kondoria kondoria = new Kondoria(x, y, game);
+                Game.enemies.add(kondoria);
+                break;
+
+            case '4':
+                Doll doll = new Doll(x, y, game);
+                Game.enemies.add(doll);
+                break;
+
             case 'b':
                 BombItem bombItem = new BombItem(x, y, game);
                 Brick brick3 = new Brick(x, y, game);
                 LayeredEntity layeredEntity2 = new LayeredEntity(x, y, bombItem, brick3, game);
                 Game.layeredEntities.add(layeredEntity2);
-                Game.wallAndBrick.add(brick3);
                 break;
 
             case 'f':
@@ -109,7 +114,6 @@ public class Level {
                 Brick brick4 = new Brick(x, y, game);
                 LayeredEntity layeredEntity3 = new LayeredEntity(x, y, flameItem, brick4, game);
                 Game.layeredEntities.add(layeredEntity3);
-                Game.wallAndBrick.add(brick4);
                 break;
 
             case 's':
@@ -117,9 +121,9 @@ public class Level {
                 Brick brick2 = new Brick(x, y, game);
                 LayeredEntity layeredEntity4 = new LayeredEntity(x, y, speedItem, brick2, game);
                 Game.layeredEntities.add(layeredEntity4);
-                Game.wallAndBrick.add(brick2);
                 break;
 
         }
     }
+
 }

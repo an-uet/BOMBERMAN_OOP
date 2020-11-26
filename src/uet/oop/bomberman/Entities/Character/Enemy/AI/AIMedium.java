@@ -2,14 +2,15 @@ package uet.oop.bomberman.Entities.Character.Enemy.AI;
 
 import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
+import uet.oop.bomberman.Game;
 
 public class AIMedium extends AI {
     Enemy _e;
     Bomber _bomber;
 
-    public AIMedium(Bomber bomber, Enemy e) {
-        _bomber = bomber;
+    public AIMedium(Bomber bomber,  Enemy e) {
         _e = e;
+        _bomber = bomber;
     }
 
 
@@ -17,7 +18,6 @@ public class AIMedium extends AI {
     @Override
     public int calculateDirection() {
         int result;
-        // TODO: cài đặt thuật toán tìm đường đi
         if (_bomber == null) {
             result = random.nextInt(4);
         } else {

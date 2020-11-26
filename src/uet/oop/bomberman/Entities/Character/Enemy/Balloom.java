@@ -8,12 +8,14 @@ import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 
+import static uet.oop.bomberman.Game.totalScore;
+
 public class Balloom extends Enemy {
     public Balloom(double x, double y, Game game) {
         super(x, y, game);
         img = Sprite.balloom_left1.getFxImage();
         ai = new AILow();
-        speed = Sprite.SCALED_SIZE/32;
+        speed =(double)Sprite.SCALED_SIZE/64;
         score = 100;
     }
 
@@ -40,6 +42,7 @@ public class Balloom extends Enemy {
                 gc.drawImage(img, x, y);
             } else {
                 remove();
+                totalScore += score;
             }
             animate();
         } else {

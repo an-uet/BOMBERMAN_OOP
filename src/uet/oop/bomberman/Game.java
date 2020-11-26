@@ -1,21 +1,12 @@
 package uet.oop.bomberman;
 
-import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import sun.plugin2.message.Message;
 import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
-import uet.oop.bomberman.Entities.Level.Level;
 import uet.oop.bomberman.Entities.Massage;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
 import uet.oop.bomberman.Entities.SemiDynamic.Flame;
-import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
-import uet.oop.bomberman.Entities.Static.Grass;
-import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +22,13 @@ public class Game {
     public static List<Bomb> bombs = new ArrayList<>();
     public static List<Flame> flames = new ArrayList<>();
     public static List<Massage> messages = new ArrayList<>();
-    public static List<Entity> wallAndBrick = new ArrayList<>();
 
     public static char[][] mapChar = new char[HEIGHT][WIDTH];
+
+    public static int TIME = 200; // thời gian max cho 1 màn chơi.
+    public static int totalScore = 0;
+    public static boolean changeLevel = false; // kiem tra xem co doi level k.
+
 
     public List<Entity> getEntityAt (double x, double y) {
         List<Entity> entityList = new ArrayList<>();
@@ -95,6 +90,17 @@ public class Game {
         return entityList;
     }
 
+    public void reset()
+    {
+        bomberman.remove();
+        enemies.clear();
+        stillObjects.clear();
+        layeredEntities.clear();
+        bombs.clear();
+        flames.clear();
+        messages.clear();
+    }
+
     public void update() {
         bomberman.update();
         for (int i = 0; i < enemies.size(); i++) {
@@ -121,6 +127,7 @@ public class Game {
                 flames.remove(i);
             }
         }
+
     }
 
     public void render() {
@@ -131,6 +138,5 @@ public class Game {
         enemies.forEach(g -> g.render(BombermanGame.gc));
         bombs.forEach(g -> g.render(BombermanGame.gc));
         messages.forEach(g -> g.render(BombermanGame.gc));
-        //Wall_and_Brick.forEach(g ->g.render(BombermanGame.gc));
     }
 }
