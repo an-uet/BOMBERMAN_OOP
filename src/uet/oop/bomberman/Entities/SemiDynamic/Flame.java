@@ -13,8 +13,8 @@ import uet.oop.bomberman.sound.Sound;
 import java.util.List;
 
 public class Flame extends SemiDynamic {
-    protected int direction; //huong ngon lua : trên/dưới/trái/phải tương ứng là 0/1/2/3
-    boolean canRender = true;
+    protected int direction; //huong ngon lua : trên/dưới/trái/phải/doc/ngang tương ứng là 0/1/2/3/4/5
+    public boolean canRender = true;
 
     public Flame(double x, double y, int direction, Game game) {
         super(x, y, game);
@@ -73,45 +73,60 @@ public class Flame extends SemiDynamic {
                         case 0:
                             img = Sprite.explosion_vertical_top_last.getFxImage();
                             break;
-                        case 1:
+                        case 2:
                             img = Sprite.explosion_vertical_down_last.getFxImage();
                             break;
-                        case 2:
+                        case 3:
                             img = Sprite.explosion_horizontal_left_last.getFxImage();
                             break;
-                        case 3:
+                        case 1:
                             img = Sprite.explosion_horizontal_right_last.getFxImage();
                             break;
+                        case 4:
+                            img = Sprite.explosion_vertical.getFxImage();
+                            break;
+                        case 5:
+                            img = Sprite.explosion_horizontal.getFxImage();
                     }
                 } else if (animate % 30 < 20) {
                     switch (direction) {
                         case 0:
                             img = Sprite.explosion_vertical_top_last1.getFxImage();
                             break;
-                        case 1:
+                        case 2:
                             img = Sprite.explosion_vertical_down_last1.getFxImage();
                             break;
-                        case 2:
+                        case 3:
                             img = Sprite.explosion_horizontal_left_last1.getFxImage();
                             break;
-                        case 3:
+                        case 1:
                             img = Sprite.explosion_horizontal_right_last1.getFxImage();
                             break;
+                        case 4:
+                            img = Sprite.explosion_vertical1.getFxImage();
+                            break;
+                        case 5:
+                            img = Sprite.explosion_horizontal1.getFxImage();
                     }
                 } else {
                     switch (direction) {
                         case 0:
                             img = Sprite.explosion_vertical_top_last2.getFxImage();
                             break;
-                        case 1:
+                        case 2:
                             img = Sprite.explosion_vertical_down_last2.getFxImage();
                             break;
-                        case 2:
+                        case 3:
                             img = Sprite.explosion_horizontal_left_last2.getFxImage();
                             break;
-                        case 3:
+                        case 1:
                             img = Sprite.explosion_horizontal_right_last2.getFxImage();
                             break;
+                        case 4:
+                            img = Sprite.explosion_vertical2.getFxImage();
+                            break;
+                        case 5:
+                            img = Sprite.explosion_horizontal2.getFxImage();
                     }
                 }
                 if (canRender) {

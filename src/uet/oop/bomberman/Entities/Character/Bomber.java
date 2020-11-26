@@ -11,8 +11,10 @@ import uet.oop.bomberman.Entities.LayeredEntity;
 import uet.oop.bomberman.Entities.Level.Level;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
 import uet.oop.bomberman.Entities.SemiDynamic.Brick;
+import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
 import uet.oop.bomberman.Entities.Static.Grass;
 import uet.oop.bomberman.Entities.Static.Item.BombItem;
+import uet.oop.bomberman.Entities.Static.Item.FlameItem;
 import uet.oop.bomberman.Entities.Static.Item.SpeedItem;
 import uet.oop.bomberman.Entities.Static.Wall;
 import uet.oop.bomberman.Game;
@@ -55,10 +57,13 @@ public class Bomber extends Character {
                     } else {
                         x += speed;
                     }
-                    speed = Sprite.SCALED_SIZE / 4;
+                    speed *= 2;
                     a.remove();
                 } else if (((LayeredEntity) a).getTopEntity() instanceof BombItem) {
                     amountBomb++ ;
+                    a.remove();
+                } else if (((LayeredEntity) a).getTopEntity() instanceof FlameItem) {
+                    RayFlame.lengthFlame += 1;
                     a.remove();
                 }
             }
@@ -133,10 +138,12 @@ public class Bomber extends Character {
             if (Game.bombs.size() < amountBomb) {
                 Sound.play("BOM_SET");
                 Bomb bom = new Bomb(Math.round(x / Sprite.SCALED_SIZE), Math.round(y / Sprite.SCALED_SIZE), game);
-                Game.flames.add(bom.flameDown);
-                Game.flames.add(bom.flameLeft);
-                Game.flames.add(bom.flameUp);
-                Game.flames.add(bom.flameRight);
+                for (int i = 0; i < RayFlame.lengthFlame; i++) {
+                    Game.flames.add(bom.rayFlameDown.flameList.get(i));
+                    Game.flames.add(bom.rayFlameLeft.flameList.get(i));
+                    Game.flames.add(bom.rayFlameUp.flameList.get(i));
+                    Game.flames.add(bom.rayFlameRight.flameList.get(i));
+                }
                 Game.bombs.add(bom);
             }
         }

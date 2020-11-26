@@ -8,21 +8,22 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomb extends SemiDynamic {
 
+    public RayFlame rayFlameUp = new RayFlame(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE - 1, 0, game);
+    public RayFlame rayFlameDown = new RayFlame(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE + 1, 2, game);
+    public RayFlame rayFlameLeft = new RayFlame(x / Sprite.SCALED_SIZE - 1, y / Sprite.SCALED_SIZE, 3, game);
+    public RayFlame rayFlameRight = new RayFlame(x / Sprite.SCALED_SIZE + 1, y / Sprite.SCALED_SIZE, 1, game);
 
-    public Flame flameUp = new Flame(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE - 1, 0, game);
-    public Flame flameDown = new Flame(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE + 1, 1, game);
-    public Flame flameLeft = new Flame(x / Sprite.SCALED_SIZE - 1, y / Sprite.SCALED_SIZE, 2, game);
-    public Flame flameRight = new Flame(x / Sprite.SCALED_SIZE + 1, y / Sprite.SCALED_SIZE, 3, game);
     public Bomb(double x, double y, Game game) {
         super(x, y, game);
         img = Sprite.bomb.getFxImage();
     }
 
     public void collide() {
-        flameDown.collide();
-        flameLeft.collide();
-        flameRight.collide();
-        flameUp.collide();
+        rayFlameUp.collide();
+        rayFlameDown.collide();
+        rayFlameLeft.collide();
+        rayFlameRight.collide();
+
     }
 
     public void render(GraphicsContext gc) {
@@ -49,20 +50,23 @@ public class Bomb extends SemiDynamic {
                 remove();
             }
         }
-        flameUp.render(gc);
-        flameDown.render(gc);
-        flameLeft.render(gc);
-        flameRight.render(gc);
+        rayFlameUp.render(gc);
+        rayFlameDown.render(gc);
+        rayFlameLeft.render(gc);
+        rayFlameRight.render(gc);
+
         animate();
     }
 
     @Override
     public void update() {
         super.update();
-        flameUp.update();
-        flameDown.update();
-        flameLeft.update();
-        flameRight.update();
+
+        rayFlameUp.update();
+        rayFlameDown.update();
+        rayFlameLeft.update();
+        rayFlameRight.update();
+
         collide();
     }
 }

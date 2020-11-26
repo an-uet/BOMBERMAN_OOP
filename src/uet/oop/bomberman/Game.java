@@ -13,6 +13,7 @@ import uet.oop.bomberman.Entities.Level.Level;
 import uet.oop.bomberman.Entities.Massage;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
 import uet.oop.bomberman.Entities.SemiDynamic.Flame;
+import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
 import uet.oop.bomberman.Entities.Static.Grass;
 import uet.oop.bomberman.graphics.Sprite;
 
