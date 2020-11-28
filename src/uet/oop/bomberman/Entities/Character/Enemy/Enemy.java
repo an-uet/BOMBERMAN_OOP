@@ -83,10 +83,5 @@ public abstract class Enemy extends Character {
         collide();
         move();
 
-
-        if (timeSetFlame > 0) {
-                timeSetFlame--;
-            }
-
     }
 }

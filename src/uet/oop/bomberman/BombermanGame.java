@@ -18,6 +18,9 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
+import static uet.oop.bomberman.Game.TIME;
+import static uet.oop.bomberman.Game.totalScore;
+
 public class BombermanGame extends Application {
 
     public static final int WIDTH = 31;
@@ -54,18 +57,24 @@ public class BombermanGame extends Application {
         paneCanvas.getChildren().add(canvas);
 
         //score.
-        Label score = new Label(String.format("Score: %d", game.totalScore));
+        Label score = new Label(String.format("Score: %d", totalScore));
         score.setTextFill(Color.WHITE);
-        score.setLayoutX(50);
+        score.setLayoutX(750);
         score.setLayoutY(10);
         paneCanvas.getChildren().add(score);
 
         //time.
-        Label time = new Label(String.format("Time: %d", game.TIME));
+        Label time = new Label(String.format("Time: %d", TIME));
         time.setTextFill(Color.WHITE);
         time.setLayoutX(400);
         time.setLayoutY(10);
         paneCanvas.getChildren().add(time);
+
+        Label level1 = new Label(String.format("Level : %d", numOfLevel));
+        level1.setTextFill(Color.WHITE);
+        level1.setLayoutX(50);
+        level1.setLayoutY(10);
+        paneCanvas.getChildren().add(level1);
 
 
         // Tao scene
@@ -82,9 +91,8 @@ public class BombermanGame extends Application {
                 game.render();
                 game.update();
                 GameOver(stage);
-                if(Game.changeLevel == true)
-                {
-                    numOfLevel ++;
+                if (Game.changeLevel && !game.bomberman.isKilled()) {
+                    numOfLevel++;
                     game.reset();
                     level.createMap(numOfLevel);
                     game.changeLevel = false;
@@ -92,8 +100,6 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
-
-
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -116,9 +122,7 @@ public class BombermanGame extends Application {
                 stage.setScene(screen.gameOver());
             });
             delay.play();
-        }
-        else
-        {
+        } else {
             // ket thuc man choi sau 200s.
             PauseTransition delay = new PauseTransition(Duration.seconds(200));
             delay.setOnFinished(event ->
@@ -128,9 +132,6 @@ public class BombermanGame extends Application {
             delay.play();
         }
     }
-
-
-
 
 
 }

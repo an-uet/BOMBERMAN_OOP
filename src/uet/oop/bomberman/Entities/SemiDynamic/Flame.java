@@ -21,6 +21,11 @@ public class Flame extends SemiDynamic {
         this.direction = direction;
     }
 
+    public Flame(double x, double y, Game game)
+    {
+        super(x,y,game);
+    }
+
     public void collide() {
         List<Entity> entityList = game.getEntityAt(x, y);
         double xOfBomber = game.bomberman.getX();
@@ -51,7 +56,6 @@ public class Flame extends SemiDynamic {
                 return;
             } else {
                 game.bomberman.kill();
-                //Sound.play("endgame3");
             }
         }
     }

@@ -4,31 +4,33 @@ import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AILow;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
+import uet.oop.bomberman.Entities.Static.Item.BombItem;
+import uet.oop.bomberman.Entities.Static.Item.FlameItem;
 import uet.oop.bomberman.Entities.Static.Item.SpeedItem;
-import uet.oop.bomberman.Entities.Static.Wall;
+import uet.oop.bomberman.Entities.Static.Portal;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
 import java.util.List;
 
-public class Doll extends Enemy {
-    // con nay di xuyen Brick, Bomb + di chuyen ngau nhien + van toc cham.
-    // ps: có thể ăn được item speed, sau khi ăn item thì speed*2.
+import static uet.oop.bomberman.Game.totalScore;
 
+public class Minvo extends Enemy {
+    // di chuyển ngẫu nhiên. không xuyên Wall + Brick.
+    // có thể ăn item.
 
-    public Doll(double x, double y, Game game) {
+    public Minvo(double x, double y, Game game) {
         super(x, y, game);
         ai = new AILow();
+        img = Sprite.minvo_right2.getFxImage();
         speed = (double) Sprite.SCALED_SIZE / 128;
         score = 200;
     }
 
 
-    // ăn item Speed.
-    @Override
+    // ăn item.
     public void collide() {
-        super.collide();
         List<Entity> entityList = game.getEntityAt(x, y);
         for (Entity a : entityList) {
             if (a instanceof LayeredEntity) {
@@ -45,47 +47,20 @@ public class Doll extends Enemy {
                     speed *= 2;
                     a.remove();
                     Sound.play("Item");
+                } else if (((LayeredEntity) a).getTopEntity() instanceof BombItem) {
+                    a.remove();
+                    Sound.play("Item");
+                } else if (((LayeredEntity) a).getTopEntity() instanceof FlameItem) {
+                    a.remove();
+                    Sound.play("Item");
+                } else if (((LayeredEntity) a).getTopEntity() instanceof Portal) {
+                    if (Game.enemies.isEmpty()) {
+                        a.remove();
+                        Sound.play("Item");
+                    }
                 }
             }
         }
-    }
-
-    @Override
-    public boolean canMove(int direction) {
-        canMove = true;
-        if (direction == 0) {
-            List<Entity> entityList = game.getEntityAt(x, y - speed);
-            for (Entity a : entityList) {
-                if (a instanceof Wall) {
-                    canMove = false;
-                }
-            }
-        }
-        if (direction == 1) {
-            List<Entity> entityList = game.getEntityAt(x + speed, y);
-            for (Entity a : entityList) {
-                if (a instanceof Wall) {
-                    canMove = false;
-                }
-            }
-        }
-        if (direction == 2) {
-            List<Entity> entityList = game.getEntityAt(x, y + speed);
-            for (Entity a : entityList) {
-                if (a instanceof Wall) {
-                    canMove = false;
-                }
-            }
-        }
-        if (direction == 3) {
-            List<Entity> entityList = game.getEntityAt(x - speed, y);
-            for (Entity a : entityList) {
-                if (a instanceof Wall) {
-                    canMove = false;
-                }
-            }
-        }
-        return canMove;
     }
 
 
@@ -93,22 +68,22 @@ public class Doll extends Enemy {
         switch (direction) {
             case 0:
             case 1:
-                img = Sprite.movingSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, animate, 60).getFxImage();
+                img = Sprite.movingSprite(Sprite.minvo_right1, Sprite.minvo_right2, Sprite.minvo_right3, animate, 60).getFxImage();
                 break;
             case 2:
             case 3:
-                img = Sprite.movingSprite(Sprite.doll_left1, Sprite.doll_left2, Sprite.doll_left3, animate, 60).getFxImage();
+                img = Sprite.movingSprite(Sprite.minvo_left1, Sprite.minvo_left2, Sprite.minvo_left3, animate, 60).getFxImage();
                 break;
         }
     }
 
-
+    @Override
     public void render(GraphicsContext gc) {
         chooseSprite();
         if (isKilled()) {
             if (timeToDie > -30) {
                 if (animate % 60 < 20) {
-                    img = Sprite.doll_dead.getFxImage();
+                    img = Sprite.minvo_dead.getFxImage();
                 } else if (animate % 60 < 40) {
                     img = Sprite.mob_dead2.getFxImage();
                 } else {
@@ -117,7 +92,7 @@ public class Doll extends Enemy {
                 gc.drawImage(img, x, y);
             } else {
                 remove();
-                game.totalScore += score;// cong diem.
+                totalScore += score;
             }
             animate();
         } else {
@@ -125,7 +100,4 @@ public class Doll extends Enemy {
         }
 
     }
-
 }
-
-

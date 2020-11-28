@@ -9,7 +9,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.awt.image.BufferedImage;
 
 public class Kondoria extends Enemy{
-    //con nay di cham. co the di xuyen tuong.
+    //di chuyển chậm, đi xuyên ALL.
     public Kondoria(double x, double y, Game game) {
         super(x, y, game);
         speed = (double) Sprite.SCALED_SIZE/256;

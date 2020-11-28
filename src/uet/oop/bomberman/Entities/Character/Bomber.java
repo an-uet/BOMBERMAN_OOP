@@ -3,6 +3,7 @@ package uet.oop.bomberman.Entities.Character;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
@@ -66,7 +67,9 @@ public class Bomber extends Character {
 
                 }
 
-
+            }
+            if (a instanceof Enemy) {
+                game.bomberman.kill();
             }
         }
     }

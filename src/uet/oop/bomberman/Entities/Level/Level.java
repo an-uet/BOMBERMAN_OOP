@@ -1,11 +1,8 @@
 package uet.oop.bomberman.Entities.Level;
 
-import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.*;
-import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
-import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
 import uet.oop.bomberman.Entities.SemiDynamic.Brick;
 import uet.oop.bomberman.Entities.Static.Grass;
 import uet.oop.bomberman.Entities.Static.Item.BombItem;
@@ -14,15 +11,16 @@ import uet.oop.bomberman.Entities.Static.Item.SpeedItem;
 import uet.oop.bomberman.Entities.Static.Portal;
 import uet.oop.bomberman.Entities.Static.Wall;
 import uet.oop.bomberman.Game;
-import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.File;
 import java.util.Scanner;
 
-import static uet.oop.bomberman.BombermanGame.*;
+import static uet.oop.bomberman.BombermanGame.HEIGHT;
+import static uet.oop.bomberman.BombermanGame.WIDTH;
 
 public class Level {
     private Game game;
+
     public Level(Game game) {
         this.game = game;
     }
@@ -58,6 +56,7 @@ public class Level {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(level);
 
     }
 
@@ -101,6 +100,12 @@ public class Level {
                 Doll doll = new Doll(x, y, game);
                 Game.enemies.add(doll);
                 break;
+
+            case '5':
+                Minvo minvo = new Minvo(x, y, game);
+                Game.enemies.add(minvo);
+                break;
+
 
             case 'b':
                 BombItem bombItem = new BombItem(x, y, game);

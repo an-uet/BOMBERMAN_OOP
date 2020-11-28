@@ -21,7 +21,7 @@ public class Screen {
     private Game game = new Game();
     private Level level = new Level(game);
 
-        public Scene gameOver() {
+    public Scene gameOver() {
         Group root = new Group();
         StackPane sp = new StackPane();
         sp.getChildren().addAll(new Rectangle(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT, Color.BLACK));
@@ -32,15 +32,6 @@ public class Screen {
         text.setTextAlignment(TextAlignment.CENTER);
         sp.getChildren().addAll(text);
 
-       /* Button newGame = new Button("new Game");
-        newGame.setLayoutX(500);
-        newGame.setLayoutY(300);
-        newGame.setOnMouseClicked(event -> {
-            createNew(2);
-        });
-        sp.getChildren().add(newGame);
-
-        */
         root.getChildren().addAll(sp);
         Scene scene = new Scene(root);
         return scene;
@@ -48,22 +39,12 @@ public class Screen {
 
     }
 
-   /* private void createNew(int i) {
-        if(game.bomberman.isKilled())
-        {
-            game.reset();
-            level.createMap(i);
-        }
-    }
-
-    */
 
     public Scene LevelScene() {
         Group root = new Group();
         StackPane sp = new StackPane();
         sp.getChildren().addAll(new Rectangle(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT, Color.BLACK));
-
-        Text text = new Text("BOMBERMAN\n Level: "); // + bomberman level + ?
+        Text text = new Text("BOMBERMAN\n Level: ");
         text.setFont(Font.font("Arial", FontWeight.LIGHT, 60));
         text.setFill(Color.WHITE);
         text.setTextAlignment(TextAlignment.CENTER);
@@ -73,9 +54,6 @@ public class Screen {
         Scene scene = new Scene(root);
         return scene;
     }
-
-
-
 
 
 }

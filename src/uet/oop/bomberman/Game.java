@@ -79,7 +79,7 @@ public class Game {
         for (int i = 0; i < stillObjects.size(); i++) {
             double xOfEntity = stillObjects.get(i).getX();
             double yOfEntity = stillObjects.get(i).getY();
-            if (xOfEntity >= x + 32 || xOfEntity + 32 <= x) {
+            if (xOfEntity >= x + 32  || xOfEntity + 32 <= x) {
 
             } else if (yOfEntity >= y + 32 || yOfEntity + 32 <= y) {
 

@@ -17,7 +17,7 @@ public class Oneal extends Enemy {
     public Oneal(double x, double y, Game game) {
         super(x, y, game);
         img = Sprite.oneal_left1.getFxImage();
-        ai = new AILow();
+        ai = new AIMedium(game.bomberman,this);
         speed = (double) Sprite.SCALED_SIZE /128;
         speed += random.nextInt(2);
         score = 200;
