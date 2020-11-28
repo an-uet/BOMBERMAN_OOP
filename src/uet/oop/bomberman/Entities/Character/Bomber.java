@@ -141,7 +141,20 @@ public class Bomber extends Character {
         if (event.getCode().equals(KeyCode.SPACE)) {
             if (Game.bombs.size() < amountBomb) {
                 Sound.play("BOM_SET");
-                Bomb bom = new Bomb(Math.round(x / Sprite.SCALED_SIZE), Math.round(y / Sprite.SCALED_SIZE), game);
+                Bomb bom;
+                // chinh dat bom.
+                if (direction == 0) {
+                    bom = new Bomb(Math.round(x / Sprite.SCALED_SIZE), Math.floor(y / Sprite.SCALED_SIZE), game);
+                }
+                if (direction == 2) {
+                    bom = new Bomb(Math.round(x / Sprite.SCALED_SIZE), Math.ceil(y / Sprite.SCALED_SIZE), game);
+                }
+                if (direction == 1) {
+                    bom = new Bomb(Math.ceil(x / Sprite.SCALED_SIZE), Math.round(y / Sprite.SCALED_SIZE), game);
+                } else {
+                    bom = new Bomb(Math.floor(x / Sprite.SCALED_SIZE), Math.round(y / Sprite.SCALED_SIZE), game);
+                }
+
                 for (int i = 0; i < RayFlame.lengthFlame; i++) {
                     Game.flames.add(bom.rayFlameDown.flameList.get(i));
                     Game.flames.add(bom.rayFlameLeft.flameList.get(i));

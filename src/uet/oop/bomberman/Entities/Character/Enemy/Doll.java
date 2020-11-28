@@ -2,6 +2,7 @@ package uet.oop.bomberman.Entities.Character.Enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AILow;
+import uet.oop.bomberman.Entities.Character.Enemy.AI.AIMedium;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
 import uet.oop.bomberman.Entities.Static.Item.SpeedItem;
