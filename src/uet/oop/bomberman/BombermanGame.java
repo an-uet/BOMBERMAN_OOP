@@ -31,6 +31,8 @@ public class BombermanGame extends Application {
     private Game game = new Game();
     private Level level = new Level(game);
     public int numOfLevel = 1;
+    public int timeToSub = 1;
+
     Screen screen = new Screen();
 
 
@@ -86,15 +88,26 @@ public class BombermanGame extends Application {
         stage.show();
 
         level.createMap(1);
+
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long l) {
                 game.render();
                 game.update();
                 GameOver(stage);
+                score.setText(String.format("Score: %d", totalScore));
+
+                if (timeToSub > 60) {
+                    timeToSub = 0;
+                    TIME--;
+                } else {
+                    timeToSub++;
+                }
+                time.setText(String.format("Time: %d", TIME));
                 if (Game.changeLevel && !game.bomberman.isKilled()) {
                     numOfLevel++;
                     game.reset();
                     level.createMap(numOfLevel);
+                    level1.setText(String.format("Level : %d", numOfLevel));
                     game.changeLevel = false;
                 }
             }
@@ -132,6 +145,4 @@ public class BombermanGame extends Application {
             delay.play();
         }
     }
-
-
 }

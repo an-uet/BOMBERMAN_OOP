@@ -99,6 +99,7 @@ public class Game {
         bombs.clear();
         flames.clear();
         messages.clear();
+        TIME = 200;
     }
 
     public void update() {
