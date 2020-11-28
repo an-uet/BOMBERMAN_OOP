@@ -109,8 +109,11 @@ public class BombermanGame extends Application {
                     level.createMap(numOfLevel);
                     level1.setText(String.format("Level : %d", numOfLevel));
                     game.changeLevel = false;
+
                 }
+
             }
+
         };
         timer.start();
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -118,26 +121,17 @@ public class BombermanGame extends Application {
             public void handle(KeyEvent keyEvent) {
                 game.bomberman.anime(keyEvent);
             }
-
         });
-        // nhac cho man choi.
+
         Sound.play("soundtrack");
+
 
     }
 
-
-    // hiện màn hình game over khi bomber chết.
+    // hiện màn hình game over khi bomber chết or khi hết time.
     public void GameOver(Stage stage) {
-        if (game.bomberman.isKilled()) {
+        if (game.bomberman.isKilled() || TIME == 0) {
             PauseTransition delay = new PauseTransition(Duration.seconds(3));
-            delay.setOnFinished(event ->
-            {
-                stage.setScene(screen.gameOver());
-            });
-            delay.play();
-        } else {
-            // ket thuc man choi sau 200s.
-            PauseTransition delay = new PauseTransition(Duration.seconds(200));
             delay.setOnFinished(event ->
             {
                 stage.setScene(screen.gameOver());

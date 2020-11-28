@@ -15,7 +15,7 @@ import static uet.oop.bomberman.BombermanGame.HEIGHT;
 import static uet.oop.bomberman.BombermanGame.WIDTH;
 
 public class Game {
-    public Bomber bomberman;
+    public static Bomber bomberman;
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
     public static List<LayeredEntity> layeredEntities = new ArrayList<>();

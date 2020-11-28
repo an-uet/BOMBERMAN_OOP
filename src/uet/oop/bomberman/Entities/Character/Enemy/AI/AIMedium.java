@@ -1,55 +1,55 @@
 package uet.oop.bomberman.Entities.Character.Enemy.AI;
 
+import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
-import uet.oop.bomberman.Entities.Entity;
 
 public class AIMedium extends AI {
-    Enemy enemy;
-    Entity entity;
+    Bomber _bomber;
+    Enemy _e;
 
-    public AIMedium(Entity entity, Enemy e) {
-        enemy = e;
-        this.entity = entity;
+    public AIMedium(Bomber bomber, Enemy e) {
+        _bomber = bomber;
+        _e = e;
     }
-
 
     @Override
     public int calculateDirection() {
-        int result;
-        int temp = random.nextInt(2);
-        if (temp == 1) {
-            int v = calculateRow();
-            if (v != -1) {
-                result = v;
-            } else {
-                result = calculateCol();
-            }
+        if(_bomber == null)
+            return random.nextInt(4);
+
+        int vertical = random.nextInt(2);
+
+        if(vertical == 1) {
+            int v = calculateRowDirection();
+            if(v != -1)
+                return v;
+            else
+                return calculateColDirection();
 
         } else {
-            int h = calculateCol();
-            if (h != -1) {
-                result = h;
-            } else {
-                result = calculateRow();
-            }
-        }
-        return result;
-    }
+            int h = calculateColDirection();
 
-    protected int calculateCol() {
-        if (entity.getX() < enemy.getX())
+            if(h != -1)
+                return h;
+            else
+                return calculateRowDirection();
+        }
+    }
+    protected int calculateColDirection() {
+        if(_bomber.getX() < _e.getX())
             return 3;
-        else if (entity.getX() > enemy.getX())
+        else if(_bomber.getX() > _e.getX())
             return 1;
 
         return -1;
     }
 
-    protected int calculateRow() {
-        if (entity.getY() < enemy.getY())
+    protected int calculateRowDirection() {
+        if(_bomber.getY() < _e.getY())
             return 0;
-        else if (entity.getY() > enemy.getY())
+        else if(_bomber.getY() > _e.getY())
             return 2;
         return -1;
     }
+
 }
