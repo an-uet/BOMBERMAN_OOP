@@ -32,6 +32,7 @@ public class BombermanGame extends Application {
     private Level level = new Level(game);
     public int numOfLevel = 1;
     public int timeToSub = 1;
+    public int lives = 3;
 
     Screen screen = new Screen();
 
@@ -61,22 +62,30 @@ public class BombermanGame extends Application {
         //score.
         Label score = new Label(String.format("Score: %d", totalScore));
         score.setTextFill(Color.WHITE);
-        score.setLayoutX(750);
+        score.setLayoutX(550);
         score.setLayoutY(10);
         paneCanvas.getChildren().add(score);
 
         //time.
         Label time = new Label(String.format("Time: %d", TIME));
         time.setTextFill(Color.WHITE);
-        time.setLayoutX(400);
+        time.setLayoutX(300);
         time.setLayoutY(10);
         paneCanvas.getChildren().add(time);
 
+        //level.
         Label level1 = new Label(String.format("Level : %d", numOfLevel));
         level1.setTextFill(Color.WHITE);
         level1.setLayoutX(50);
         level1.setLayoutY(10);
         paneCanvas.getChildren().add(level1);
+
+        //lives
+        Label live = new Label(String.format("Live : %d", lives));
+        live.setTextFill(Color.WHITE);
+        live.setLayoutX(850);
+        live.setLayoutY(10);
+        paneCanvas.getChildren().add(live);
 
 
         // Tao scene
@@ -102,8 +111,10 @@ public class BombermanGame extends Application {
                 } else {
                     timeToSub++;
                 }
+
+
                 time.setText(String.format("Time: %d", TIME));
-                if (Game.changeLevel && !game.bomberman.isKilled()) {
+                if (Game.changeLevel && lives >= 0) {
                     numOfLevel++;
                     game.reset();
                     level.createMap(numOfLevel);
@@ -112,6 +123,13 @@ public class BombermanGame extends Application {
 
                 }
 
+                // live moi.
+               if (game.bomberman.isRemoved()) {
+                    lives--;
+                    live.setText(String.format("Live : %d", lives));
+                    game.reset();
+                    level.createMap(numOfLevel);
+                }
             }
 
         };
@@ -122,7 +140,6 @@ public class BombermanGame extends Application {
                 game.bomberman.anime(keyEvent);
             }
         });
-
         Sound.play("soundtrack");
 
 
@@ -130,13 +147,15 @@ public class BombermanGame extends Application {
 
     // hiện màn hình game over khi bomber chết or khi hết time.
     public void GameOver(Stage stage) {
-        if (game.bomberman.isKilled() || TIME == 0) {
-            PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        if (lives == 0 || TIME == 0) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(2));
             delay.setOnFinished(event ->
             {
                 stage.setScene(screen.gameOver());
+
             });
             delay.play();
         }
     }
+
 }

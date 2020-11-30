@@ -11,6 +11,7 @@ import uet.oop.bomberman.Entities.Static.Item.SpeedItem;
 import uet.oop.bomberman.Entities.Static.Portal;
 import uet.oop.bomberman.Entities.Static.Wall;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.sound.Sound;
 
 import java.io.File;
 import java.util.Scanner;

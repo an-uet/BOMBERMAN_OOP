@@ -1,5 +1,6 @@
 package uet.oop.bomberman.Entities.Character.Enemy;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AILow;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AIMedium;
@@ -11,6 +12,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class Doll extends Enemy {
@@ -21,6 +23,8 @@ public class Doll extends Enemy {
     public Doll(double x, double y, Game game) {
         super(x, y, game);
         ai = new AILow();
+        BufferedImage bufferedImage;
+        img = Sprite.doll_left1.getFxImage();
         speed = (double) Sprite.SCALED_SIZE / 128;
         score = 200;
     }
