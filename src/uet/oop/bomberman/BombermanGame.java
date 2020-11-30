@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import uet.oop.bomberman.Entities.Level.Level;
+import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
@@ -102,7 +103,6 @@ public class BombermanGame extends Application {
             public void handle(long l) {
                 game.render();
                 game.update();
-                GameOver(stage);
                 score.setText(String.format("Score: %d", totalScore));
 
                 if (timeToSub > 60) {
@@ -126,9 +126,14 @@ public class BombermanGame extends Application {
                 // live moi.
                if (game.bomberman.isRemoved()) {
                     lives--;
-                    live.setText(String.format("Live : %d", lives));
-                    game.reset();
-                    level.createMap(numOfLevel);
+                    if (lives > 0) {
+                        live.setText(String.format("Live : %d", lives));
+                        game.reset();
+                        RayFlame.lengthFlame = 1;
+                        level.createMap(numOfLevel);
+                    } else {
+                        GameOver(stage);
+                    }
                 }
             }
 
@@ -148,7 +153,7 @@ public class BombermanGame extends Application {
     // hiện màn hình game over khi bomber chết or khi hết time.
     public void GameOver(Stage stage) {
         if (lives == 0 || TIME == 0) {
-            PauseTransition delay = new PauseTransition(Duration.seconds(2));
+            PauseTransition delay = new PauseTransition(Duration.seconds(0));
             delay.setOnFinished(event ->
             {
                 stage.setScene(screen.gameOver());

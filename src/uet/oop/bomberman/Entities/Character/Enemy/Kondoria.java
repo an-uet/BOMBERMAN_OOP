@@ -11,7 +11,7 @@ public class Kondoria extends Enemy {
     public Kondoria(double x, double y, Game game) {
         super(x, y, game);
         speed = (double) Sprite.SCALED_SIZE / 256;
-        ai = new AIMedium(game.bomberman, this);
+        ai = new AIMedium(Game.bomberman, this);
         score = 200;
         img = Sprite.kondoria_right1.getFxImage();
     }

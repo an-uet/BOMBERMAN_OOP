@@ -28,8 +28,8 @@ public class Flame extends SemiDynamic {
 
     public void collide() {
         List<Entity> entityList = game.getEntityAt(x, y);
-        double xOfBomber = game.bomberman.getX();
-        double yOfBomber = game.bomberman.getY();
+        double xOfBomber = Game.bomberman.getX();
+        double yOfBomber = Game.bomberman.getY();
         if (timeToExplode <= 0) {
             for (Entity entity : entityList) {
                 if (entity instanceof LayeredEntity) {

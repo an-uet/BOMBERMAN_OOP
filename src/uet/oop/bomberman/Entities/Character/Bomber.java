@@ -38,15 +38,8 @@ public class Bomber extends Character {
         for (Entity a : entityList) {
             if (a instanceof LayeredEntity) {
                 if (((LayeredEntity) a).getTopEntity() instanceof SpeedItem) {
-                    if (direction == 0) {
-                        y += speed;
-                    } else if (direction == 1) {
-                        x -= speed;
-                    } else if (direction == 2) {
-                        y -= speed;
-                    } else {
-                        x += speed;
-                    }
+                    x = a.getX();
+                    y = a.getY();
                     speed *= 2;
                     a.remove();
                     Sound.play("CRYST_UP");

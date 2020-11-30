@@ -3,6 +3,8 @@ package uet.oop.bomberman.Entities.Character.Enemy;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AILow;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AIMedium;
+import uet.oop.bomberman.Entities.Character.Enemy.AI.AIOneal;
+import uet.oop.bomberman.Entities.Character.Enemy.AI.Point;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -11,18 +13,34 @@ import java.util.Random;
 import static uet.oop.bomberman.Game.totalScore;
 
 public class Oneal extends Enemy {
-    protected Random random = new Random();
+    //protected Random random = new Random();
+    //
+    //public Point bomber = new Point((int) (game.bomberman.getX() / 32), (int) (game.bomberman.getY() / 32));
+    //public Point oneal = new Point((int) x / 32, (int) y / 32);
 
 
     public Oneal(double x, double y, Game game) {
         super(x, y, game);
         img = Sprite.oneal_left1.getFxImage();
-        ai = new AIMedium(game.bomberman,this);
-        speed = (double) Sprite.SCALED_SIZE /128;
-        speed += random.nextInt(2);
+        ai = new AIOneal(this);
+        speed = (double) Sprite.SCALED_SIZE / 128 * 2;
+        //speed += random.nextInt(2);
         score = 200;
+        //direction = ai.calculateDirection();
     }
 
+    public void move() {
+        direction = ai.calculateDirection();
+        if (direction == 0) {
+            up();
+        } else if (direction == 2) {
+            down();
+        } else if (direction == 3) {
+            left();
+        } else {
+            right();
+        }
+    }
 
     protected void chooseSprite() {
         switch (direction) {

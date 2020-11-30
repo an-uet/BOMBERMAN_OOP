@@ -17,7 +17,7 @@ public abstract class Enemy extends Character {
 
     protected AI ai;
     protected int score;
-    protected int timeSetFlame = 10;
+    //protected int timeSetFlame = 10;
 
     public Enemy(double x, double y, Game game) {
         super(x, y, game);
