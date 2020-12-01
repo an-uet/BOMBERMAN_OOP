@@ -47,17 +47,17 @@ public class AIBomber extends AI{
             ) {
                 Game.bomberman.setBomb();
 
-            } else {
-                if (direction == 0) {
-                    Game.bomberman.moveUp();
-                } else if (direction == 1) {
-                    Game.bomberman.moveRight();
-                } else if (direction == 2) {
-                    Game.bomberman.moveDown();
-                } else {
-                    Game.bomberman.moveLeft();
-                }
             }
+            if (direction == 0) {
+                Game.bomberman.moveUp();
+            } else if (direction == 1) {
+                Game.bomberman.moveRight();
+            } else if (direction == 2) {
+                Game.bomberman.moveDown();
+            } else {
+                Game.bomberman.moveLeft();
+            }
+            
         } else {
             Entity entity = null;
             for (int i = 0; i < HEIGHT; i++) {

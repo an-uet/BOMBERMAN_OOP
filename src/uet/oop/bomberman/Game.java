@@ -7,6 +7,7 @@ import uet.oop.bomberman.Entities.LayeredEntity;
 import uet.oop.bomberman.Entities.Massage;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
 import uet.oop.bomberman.Entities.SemiDynamic.Flame;
+import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,7 @@ public class Game {
 
     public void reset()
     {
+        RayFlame.lengthFlame = 1;
         bomberman.remove();
         enemies.clear();
         stillObjects.clear();
