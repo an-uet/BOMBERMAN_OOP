@@ -4,13 +4,19 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AIBomber;
@@ -20,9 +26,9 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
-import static uet.oop.bomberman.Game.TIME;
-import static uet.oop.bomberman.Game.totalScore;
-import static uet.oop.bomberman.Game.totalScoreOne;
+import java.io.InputStream;
+
+import static uet.oop.bomberman.Game.*;
 
 public class BombermanGame extends Application {
 
@@ -49,6 +55,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         // Tao Canvas
+        Sound.play("startstage");
         Pane paneCanvas = new Pane();
         paneCanvas.setStyle("-fx-background-color: black");
         canvas = new Canvas();
@@ -92,67 +99,103 @@ public class BombermanGame extends Application {
         paneCanvas.getChildren().add(live);
 
 
-        // Tao scene
-        Scene scene = new Scene(paneCanvas, 1000, 470);
+        // tao scene Start.
+        Group root = new Group();
+        root.getChildren().addAll(new Rectangle(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT, Color.BLACK));
+        Class<?> clazz = this.getClass();
+
+        InputStream input = clazz.getResourceAsStream("/sprites/start.jpg");
+        Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+        imageView.setLayoutX(250);
+        imageView.setLayoutY(5);
+        root.getChildren().addAll(imageView);
+
+        // button chon choi binh thuong.
+        Button start = new Button("Start");
+        start.setStyle("-fx-background-color: olive");
+        start.setTranslateX(470);
+        start.setTranslateY(255);
+        start.setPadding(new Insets(7, 25, 7, 25));
+        root.getChildren().add(start);
+
+        // button chon choi Ai
+        Button startAI = new Button("Game AI");
+        startAI.setStyle("-fx-background-color: olive");
+        startAI.setLayoutX(470);
+        startAI.setLayoutY(310);
+        root.getChildren().add(startAI);
 
 
-        // Them scene vao stage
-        stage.setScene(scene);
+        Scene startScene = new Scene(root);
+        stage.setScene(startScene);
         stage.show();
 
-        level.createMap(1);
+        // choi binhf thuong.
+        start.setOnMouseClicked(mouseEvent -> {
+                    Scene scene = new Scene(paneCanvas, 1000, 470);
+                    stage.setScene(scene);
+                    stage.show();
+                    level.createMap(numOfLevel);
 
-        if (mode == 0) {
-            AnimationTimer timer = new AnimationTimer() {
-                public void handle(long l) {
-                    game.render();
-                    game.update();
-                    score.setText(String.format("Score: %d", totalScore));
+                    AnimationTimer timer = new AnimationTimer() {
+                        public void handle(long l) {
+                            game.render();
+                            game.update();
+                            score.setText(String.format("Score: %d", totalScore));
 
-                    if (timeToSub > 60) {
-                        timeToSub = 0;
-                        TIME--;
-                    } else {
-                        timeToSub++;
-                    }
+                            if (timeToSub > 60) {
+                                timeToSub = 0;
+                                TIME--;
+                            } else {
+                                timeToSub++;
+                            }
+
+                            if (TIME == 0) {
+                                GameOver(stage);
+                            }
 
 
-                    time.setText(String.format("Time: %d", TIME));
-                    if (Game.changeLevel && lives > 0) {
-                        totalScoreOne = 0;
-                        numOfLevel++;
-                        game.reset();
-                        level.createMap(numOfLevel);
-                        level1.setText(String.format("Level : %d", numOfLevel));
-                        Game.changeLevel = false;
-                    }
+                            time.setText(String.format("Time: %d", TIME));
+                            if (Game.changeLevel && lives >= 0) {
+                                numOfLevel++;
+                                game.reset();
+                                level.createMap(numOfLevel);
+                                level1.setText(String.format("Level : %d", numOfLevel));
+                                game.changeLevel = false;
 
-                    // live moi.
-                    if (Game.bomberman.isRemoved()) {
-                        lives--;
-                        if (lives > 0) {
-                            totalScore -= totalScoreOne;
-                            totalScoreOne = 0;
-                            live.setText(String.format("Live : %d", lives));
-                            game.reset();
-                            RayFlame.lengthFlame = 1;
-                            level.createMap(numOfLevel);
-                        } else {
-                            GameOver(stage);
+                            }
+
+                            // live moi.
+                            if (game.bomberman.isRemoved()) {
+                                lives--;
+                                if (lives > 0) {
+                                    live.setText(String.format("Live : %d", lives));
+                                    game.reset();
+                                    RayFlame.lengthFlame = 1;
+                                    level.createMap(numOfLevel);
+                                } else {
+                                    GameOver(stage);
+                                }
+                            }
                         }
-                    }
+
+                    };
+                    timer.start();
+                    scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent keyEvent) {
+                            game.bomberman.anime(keyEvent);
+                        }
+                    });
+                    Sound.play("soundtrack");
                 }
-            };
-            timer.start();
-            if (mode == 0) {
-                scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent keyEvent) {
-                        Game.bomberman.anime(keyEvent);
-                    }
-                });
-            }
-        } else {
+
+        );
+
+
+        // choi AI.
+        startAI.setOnMouseClicked(event -> {
             AIBomber aiBomber = new AIBomber(game);
 
             AnimationTimer timer = new AnimationTimer() {
@@ -196,21 +239,22 @@ public class BombermanGame extends Application {
                 }
             };
             timer.start();
-        }
-        Sound.play("soundtrack");
+            Sound.play("soundtrack");
+        });
+
     }
+
 
     // hiện màn hình game over khi bomber chết or khi hết time.
     public void GameOver(Stage stage) {
-        if (lives == 0 || TIME == 0) {
-            PauseTransition delay = new PauseTransition(Duration.seconds(0));
-            delay.setOnFinished(event ->
-            {
-                stage.setScene(screen.gameOver());
+        PauseTransition delay = new PauseTransition(Duration.seconds(0));
+        delay.setOnFinished(event ->
+        {
+            stage.setScene(screen.gameOver());
 
-            });
-            delay.play();
-        }
+        });
+        delay.play();
+
     }
 
 }
