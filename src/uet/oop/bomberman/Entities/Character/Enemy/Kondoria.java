@@ -63,7 +63,6 @@ public class Kondoria extends Enemy {
                 gc.drawImage(img, x, y);
             } else {
                 remove();
-                game.totalScore += score; // cong diem.
             }
             animate();
         } else {

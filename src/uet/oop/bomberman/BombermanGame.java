@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import uet.oop.bomberman.Entities.Character.Enemy.AI.AIBomber;
 import uet.oop.bomberman.Entities.Level.Level;
 import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
 import uet.oop.bomberman.graphics.Screen;
@@ -21,6 +22,7 @@ import uet.oop.bomberman.sound.Sound;
 
 import static uet.oop.bomberman.Game.TIME;
 import static uet.oop.bomberman.Game.totalScore;
+import static uet.oop.bomberman.Game.totalScoreOne;
 
 public class BombermanGame extends Application {
 
@@ -34,6 +36,7 @@ public class BombermanGame extends Application {
     public int numOfLevel = 1;
     public int timeToSub = 1;
     public int lives = 3;
+    public int mode = 1;
 
     Screen screen = new Screen();
 
@@ -99,55 +102,102 @@ public class BombermanGame extends Application {
 
         level.createMap(1);
 
-        AnimationTimer timer = new AnimationTimer() {
-            public void handle(long l) {
-                game.render();
-                game.update();
-                score.setText(String.format("Score: %d", totalScore));
+        if (mode == 0) {
+            AnimationTimer timer = new AnimationTimer() {
+                public void handle(long l) {
+                    game.render();
+                    game.update();
+                    score.setText(String.format("Score: %d", totalScore));
 
-                if (timeToSub > 60) {
-                    timeToSub = 0;
-                    TIME--;
-                } else {
-                    timeToSub++;
-                }
-
-
-                time.setText(String.format("Time: %d", TIME));
-                if (Game.changeLevel && lives >= 0) {
-                    numOfLevel++;
-                    game.reset();
-                    level.createMap(numOfLevel);
-                    level1.setText(String.format("Level : %d", numOfLevel));
-                    game.changeLevel = false;
-
-                }
-
-                // live moi.
-               if (game.bomberman.isRemoved()) {
-                    lives--;
-                    if (lives > 0) {
-                        live.setText(String.format("Live : %d", lives));
-                        game.reset();
-                        RayFlame.lengthFlame = 1;
-                        level.createMap(numOfLevel);
+                    if (timeToSub > 60) {
+                        timeToSub = 0;
+                        TIME--;
                     } else {
-                        GameOver(stage);
+                        timeToSub++;
+                    }
+
+
+                    time.setText(String.format("Time: %d", TIME));
+                    if (Game.changeLevel && lives > 0) {
+                        totalScoreOne = 0;
+                        numOfLevel++;
+                        game.reset();
+                        level.createMap(numOfLevel);
+                        level1.setText(String.format("Level : %d", numOfLevel));
+                        Game.changeLevel = false;
+                    }
+
+                    // live moi.
+                    if (Game.bomberman.isRemoved()) {
+                        lives--;
+                        if (lives > 0) {
+                            totalScore -= totalScoreOne;
+                            totalScoreOne = 0;
+                            live.setText(String.format("Live : %d", lives));
+                            game.reset();
+                            RayFlame.lengthFlame = 1;
+                            level.createMap(numOfLevel);
+                        } else {
+                            GameOver(stage);
+                        }
                     }
                 }
+            };
+            timer.start();
+            if (mode == 0) {
+                scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent keyEvent) {
+                        Game.bomberman.anime(keyEvent);
+                    }
+                });
             }
+        } else {
+            AIBomber aiBomber = new AIBomber(game);
 
-        };
-        timer.start();
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                game.bomberman.anime(keyEvent);
-            }
-        });
+            AnimationTimer timer = new AnimationTimer() {
+                public void handle(long l) {
+                    game.render();
+                    game.update();
+                    score.setText(String.format("Score: %d", totalScore));
+
+                    if (timeToSub > 60) {
+                        timeToSub = 0;
+                        TIME--;
+                    } else {
+                        timeToSub++;
+                    }
+
+                    time.setText(String.format("Time: %d", TIME));
+                    if (Game.changeLevel && lives > 0) {
+                        totalScoreOne = 0;
+                        numOfLevel++;
+                        game.reset();
+                        level.createMap(numOfLevel);
+                        level1.setText(String.format("Level : %d", numOfLevel));
+                        Game.changeLevel = false;
+                    }
+
+                    // live moi.
+                    if (Game.bomberman.isRemoved()) {
+                        lives--;
+                        if (lives > 0) {
+                            totalScore -= totalScoreOne;
+                            totalScoreOne = 0;
+                            live.setText(String.format("Live : %d", lives));
+                            game.reset();
+                            RayFlame.lengthFlame = 1;
+                            level.createMap(numOfLevel);
+                        } else {
+                            GameOver(stage);
+                        }
+                    }
+                    aiBomber.move();
+                }
+            };
+            timer.start();
+        }
         Sound.play("soundtrack");
-
-
     }
 
     // hiện màn hình game over khi bomber chết or khi hết time.

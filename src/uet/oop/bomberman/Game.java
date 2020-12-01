@@ -27,6 +27,7 @@ public class Game {
 
     public static int TIME = 200; // thời gian max cho 1 màn chơi.
     public static int totalScore = 0;
+    public static int totalScoreOne = 0;
     public static boolean changeLevel = false; // kiem tra xem co doi level k.
 
 

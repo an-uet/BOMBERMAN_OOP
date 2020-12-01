@@ -1,9 +1,7 @@
 package uet.oop.bomberman.Entities.Character.Enemy.AI;
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Entities.Character.Bomber;
 import uet.oop.bomberman.Entities.Character.Enemy.Enemy;
-import uet.oop.bomberman.Entities.Character.Enemy.Oneal;
 import uet.oop.bomberman.Entities.Entity;
 import uet.oop.bomberman.Entities.LayeredEntity;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
@@ -15,20 +13,23 @@ import uet.oop.bomberman.Game;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AIOneal extends AI {
-    Oneal oneal;
+public class BFS {
+    Entity entity;
+    Entity entity1;
     Game game;
     boolean[][] visited = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
     String[][] path = new String[BombermanGame.WIDTH][BombermanGame.HEIGHT];
-    public AIOneal(Oneal oneal, Game game) {
-        this.oneal = oneal;
+
+    public BFS(Entity entity, Entity entity1, Game game) {
+        this.entity = entity;
+        this.entity1 = entity1;
         this.game = game;
     }
 
     public int calculateDirection() {
-        Point onealPoint = new Point((int) (oneal.getX() / 32), (int) (oneal.getY() / 32));
-        Point point = new Point((int) Game.bomberman.getX() / 32, (int) Game.bomberman.getY() / 32);
-        String eTob = resultPath(point, onealPoint);
+        Point point = new Point((int) (entity.getX() / 32), (int) (entity.getY() / 32));
+        Point point1 = new Point((int) entity1.getX() / 32, (int) entity1.getY() / 32);
+        String eTob = resultPath(point1, point);
         if (eTob.equals("l")) {
             return 3;
         } else if (eTob.equals("r")) {
@@ -38,14 +39,14 @@ public class AIOneal extends AI {
         } else if (eTob.equals("d")) {
             return 2;
         } else {
-            return random.nextInt(4);
+            return 2;
         }
     }
 
     public boolean nextPoint(int X, int Y) {
         List<Entity> entityList = game.getEntityAt(X * 32, Y * 32);
         for (Entity entity : entityList) {
-            if (entity instanceof Wall || entity instanceof Brick || entity instanceof Bomb || entity instanceof Flame) {
+            if (entity instanceof Wall || entity instanceof Brick || entity instanceof Bomb) {
                 return false;
             }
             if (entity instanceof LayeredEntity) {
@@ -53,8 +54,22 @@ public class AIOneal extends AI {
                     return false;
                 }
             }
+            /**if (entity instanceof Flame) {
+                System.out.println("Flame");
+                return false;
+            }*/
         }
         return true;
+    }
+
+    public boolean nextPointIsEnemy(int X, int Y) {
+        List<Entity> entityList = game.getEntityAt(X, Y);
+        for (Entity entity : entityList) {
+            if (entity instanceof Enemy) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void bfs(Point point) {
@@ -139,3 +154,5 @@ public class AIOneal extends AI {
         return direction;
     }
 }
+
+

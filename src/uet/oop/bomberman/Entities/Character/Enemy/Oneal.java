@@ -22,15 +22,17 @@ public class Oneal extends Enemy {
     public Oneal(double x, double y, Game game) {
         super(x, y, game);
         img = Sprite.oneal_left1.getFxImage();
-        ai = new AIOneal(this);
-        speed = (double) Sprite.SCALED_SIZE / 128 * 2;
+        ai = new AIOneal(this, game);
+        speed = (double) Sprite.SCALED_SIZE / 128 * 4;
         //speed += random.nextInt(2);
         score = 200;
         //direction = ai.calculateDirection();
     }
 
     public void move() {
-        direction = ai.calculateDirection();
+        if (this.x % 32 == 0 && this.y % 32 == 0) {
+            direction = ai.calculateDirection();
+        }
         if (direction == 0) {
             up();
         } else if (direction == 2) {
@@ -70,7 +72,6 @@ public class Oneal extends Enemy {
                 gc.drawImage(img, x, y);
             } else {
                 remove();
-                totalScore += score;
             }
             animate();
         } else {

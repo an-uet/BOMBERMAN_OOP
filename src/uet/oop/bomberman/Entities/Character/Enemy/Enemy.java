@@ -75,6 +75,11 @@ public abstract class Enemy extends Character {
     }
 
 
+    public void remove() {
+        Game.totalScore += score;
+        Game.totalScoreOne += score;
+        _removed = true;
+    }
     public void update() {
         animate();
         if (isKilled()) {

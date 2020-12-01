@@ -9,6 +9,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.Game.totalScore;
+import static uet.oop.bomberman.Game.totalScoreOne;
 
 public class Balloom extends Enemy {
     public Balloom(double x, double y, Game game) {
@@ -42,7 +43,6 @@ public class Balloom extends Enemy {
                 gc.drawImage(img, x, y);
             } else {
                 remove();
-                totalScore += score;
             }
             animate();
         } else {

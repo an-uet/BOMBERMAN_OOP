@@ -92,7 +92,6 @@ public class Minvo extends Enemy {
                 gc.drawImage(img, x, y);
             } else {
                 remove();
-                totalScore += score;
             }
             animate();
         } else {
