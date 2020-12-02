@@ -23,7 +23,7 @@ public class Oneal extends Enemy {
         super(x, y, game);
         img = Sprite.oneal_left1.getFxImage();
         ai = new AIOneal(this, game);
-        speed = (double) Sprite.SCALED_SIZE / 128 ;
+        speed = (double) Sprite.SCALED_SIZE / 64 ;
         //speed += random.nextInt(2);
         score = 200;
         //direction = ai.calculateDirection();

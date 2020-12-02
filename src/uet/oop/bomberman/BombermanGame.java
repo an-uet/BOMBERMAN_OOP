@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import uet.oop.bomberman.Entities.Character.Enemy.AI.AIBomber;
 import uet.oop.bomberman.Entities.Level.Level;
-import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
@@ -191,7 +190,7 @@ public class BombermanGame extends Application {
                             game.bomberman.anime(keyEvent);
                         }
                     });
-                    Sound.play("soundtrack");
+                    Sound.playLoop("soundtrack");
                 }
 
         );
@@ -216,6 +215,9 @@ public class BombermanGame extends Application {
                     } else {
                         timeToSub++;
                     }
+                    if (TIME == 0) {
+                        GameOver(stage);
+                    }
 
                     time.setText(String.format("Time: %d", TIME));
                     if (Game.changeLevel && lives >= 0) {
@@ -225,7 +227,7 @@ public class BombermanGame extends Application {
                         level.createMap(numOfLevel);
                         level1.setText(String.format("Level : %d", numOfLevel));
                         Game.changeLevel = false;
-                        //aiBomber.reset(game);
+                        aiBomber.reset(game);
                     }
 
                     // live moi.
@@ -237,7 +239,7 @@ public class BombermanGame extends Application {
                             live.setText(String.format("Live : %d", lives));
                             game.reset();
                             level.createMap(numOfLevel);
-                            //aiBomber.reset(game);
+                            aiBomber.reset(game);
                         } else {
                             GameOver(stage);
                         }

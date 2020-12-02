@@ -74,9 +74,9 @@ public class AIBomber extends AI{
             if (!Game.bombs.isEmpty()) {
                 bfs = new BFS(Game.bomberman, Game.stillObjects.get((int) Game.bomberman.getY()), game);
                 direction = bfs.calculateDirection();
-                //if (Game.bomberman.getX() % 32 == 0 && Game.bomberman.getY() % 32 == 0) {
-                    //direction = bfs.calculateDirection2();
-                //}
+                if (Game.bomberman.getX() % 32 == 0 && Game.bomberman.getY() % 32 == 0) {
+                    direction = bfs.calculateDirection2();
+                }
                 if (!Game.bomberman.canMove(direction)) {
                     direction = (direction + 1) % 4;
                 }

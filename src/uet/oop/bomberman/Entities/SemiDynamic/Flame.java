@@ -60,6 +60,7 @@ public class Flame extends SemiDynamic {
         }
     }
     public boolean canExplodes() { // hàm kiểm tra có thể nổ được ở vị trí hiện tại không
+
         List<Entity> entityList = game.getEntityAt(x, y);
         for (Entity entity : entityList) {
             if (entity instanceof Wall) {
@@ -73,6 +74,7 @@ public class Flame extends SemiDynamic {
         if (canExplodes()) {
             if (timeToDie > 0 && timeToExplode <= 0) {
                 if (animate % 30 < 10) {
+                    Sound.play("bomb_bang");
                     switch (direction) {
                         case 0:
                             img = Sprite.explosion_vertical_top_last.getFxImage();

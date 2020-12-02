@@ -6,14 +6,17 @@ import uet.oop.bomberman.Entities.Character.Enemy.AI.AIMedium;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.Random;
+
 public class Kondoria extends Enemy {
     //con nay di cham. co the di xuyen tuong.
     public Kondoria(double x, double y, Game game) {
         super(x, y, game);
-        speed = (double) Sprite.SCALED_SIZE / 256;
+        speed = (double) Sprite.SCALED_SIZE / 128;
         ai = new AIMedium(Game.bomberman, this);
         score = 200;
         img = Sprite.kondoria_right1.getFxImage();
+        direction = ai.calculateDirection();
     }
 
     public void move() {
