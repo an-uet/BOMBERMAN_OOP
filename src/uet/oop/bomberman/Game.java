@@ -8,6 +8,7 @@ import uet.oop.bomberman.Entities.Massage;
 import uet.oop.bomberman.Entities.SemiDynamic.Bomb;
 import uet.oop.bomberman.Entities.SemiDynamic.Flame;
 import uet.oop.bomberman.Entities.SemiDynamic.RayFlame;
+import uet.oop.bomberman.Entities.Static.Portal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class Game {
     public static List<Bomb> bombs = new ArrayList<>();
     public static List<Flame> flames = new ArrayList<>();
     public static List<Massage> messages = new ArrayList<>();
+    public static List<Portal> portals = new ArrayList<>();
 
     public static char[][] mapChar = new char[HEIGHT][WIDTH];
 

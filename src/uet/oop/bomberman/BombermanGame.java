@@ -176,7 +176,6 @@ public class BombermanGame extends Application {
                                     totalScoreOne = 0;
                                     live.setText(String.format("Live : %d", lives));
                                     game.reset();
-                                    RayFlame.lengthFlame = 1;
                                     level.createMap(numOfLevel);
                                 } else {
                                     GameOver(stage);
@@ -200,12 +199,11 @@ public class BombermanGame extends Application {
 
         // choi AI.
         startAI.setOnMouseClicked(event -> {
-            AIBomber aiBomber = new AIBomber(game);
-
             Scene scene = new Scene(paneCanvas, 1000, 470);
             stage.setScene(scene);
             stage.show();
             level.createMap(numOfLevel);
+            AIBomber aiBomber = new AIBomber(game);
             AnimationTimer timer = new AnimationTimer() {
                 public void handle(long l) {
                     game.render();
@@ -220,13 +218,14 @@ public class BombermanGame extends Application {
                     }
 
                     time.setText(String.format("Time: %d", TIME));
-                    if (Game.changeLevel && lives > 0) {
+                    if (Game.changeLevel && lives >= 0) {
                         totalScoreOne = 0;
                         numOfLevel++;
                         game.reset();
                         level.createMap(numOfLevel);
                         level1.setText(String.format("Level : %d", numOfLevel));
                         Game.changeLevel = false;
+                        //aiBomber.reset(game);
                     }
 
                     // live moi.
@@ -237,8 +236,8 @@ public class BombermanGame extends Application {
                             totalScoreOne = 0;
                             live.setText(String.format("Live : %d", lives));
                             game.reset();
-                            RayFlame.lengthFlame = 1;
                             level.createMap(numOfLevel);
+                            //aiBomber.reset(game);
                         } else {
                             GameOver(stage);
                         }

@@ -76,6 +76,7 @@ public class Level {
                 Brick brick1 = new Brick(x, y, game);
                 LayeredEntity layeredEntity1 = new LayeredEntity(x, y, portal, brick1, game);
                 Game.layeredEntities.add(layeredEntity1);
+                Game.portals.add(portal);
                 break;
 
             case 'p':

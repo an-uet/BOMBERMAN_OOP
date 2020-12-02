@@ -13,16 +13,15 @@ import uet.oop.bomberman.Game;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
-public class BFS {
+public class BFS1 {
     Entity entity;
     Entity entity1;
     Game game;
     boolean[][] visited = new boolean[BombermanGame.WIDTH][BombermanGame.HEIGHT];
     String[][] path = new String[BombermanGame.WIDTH][BombermanGame.HEIGHT];
 
-    public BFS(Entity entity, Entity entity1, Game game) {
+    public BFS1(Entity entity, Entity entity1, Game game) {
         this.entity = entity;
         this.entity1 = entity1;
         this.game = game;
@@ -65,13 +64,8 @@ public class BFS {
     public boolean nextPoint(int X, int Y) {
         List<Entity> entityList = game.getEntityAt(X * 32, Y * 32);
         for (Entity entity : entityList) {
-            if (entity instanceof Wall || entity instanceof Brick || entity instanceof Bomb) {
+            if (entity instanceof Wall || entity instanceof Bomb) {
                 return false;
-            }
-            if (entity instanceof LayeredEntity) {
-                if (((LayeredEntity) entity).getTopEntity() instanceof Brick) {
-                    return false;
-                }
             }
             if (entity instanceof Flame) {
                 System.out.println("Flame");
@@ -82,11 +76,45 @@ public class BFS {
     }
 
 
-    public boolean nextPointIsEnemy(int X, int Y) {
-        List<Entity> entityList = game.getEntityAt(X, Y);
+    public boolean nextPointIsBrick(int X, int Y) {
+        List<Entity> entityList = game.getEntityAt(X + 32, Y);
         for (Entity entity : entityList) {
-            if (entity instanceof Enemy) {
+            if (entity instanceof Brick) {
                 return true;
+            } else if (entity instanceof LayeredEntity) {
+                if (((LayeredEntity) entity).getTopEntity() instanceof Brick) {
+                    return true;
+                }
+            }
+        }
+        entityList = game.getEntityAt(X - 32, Y);
+        for (Entity entity : entityList) {
+            if (entity instanceof Brick) {
+                return true;
+            } else if (entity instanceof LayeredEntity) {
+                if (((LayeredEntity) entity).getTopEntity() instanceof Brick) {
+                    return true;
+                }
+            }
+        }
+        entityList = game.getEntityAt(X, Y + 32);
+        for (Entity entity : entityList) {
+            if (entity instanceof Brick) {
+                return true;
+            } else if (entity instanceof LayeredEntity) {
+                if (((LayeredEntity) entity).getTopEntity() instanceof Brick) {
+                    return true;
+                }
+            }
+        }
+        entityList = game.getEntityAt(X, Y - 32);
+        for (Entity entity : entityList) {
+            if (entity instanceof Brick) {
+                return true;
+            } else if (entity instanceof LayeredEntity) {
+                if (((LayeredEntity) entity).getTopEntity() instanceof Brick) {
+                    return true;
+                }
             }
         }
         return false;
